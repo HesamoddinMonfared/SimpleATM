@@ -17,4 +17,8 @@ public class CardEntityService {
     public Optional<CardEntity> findCardEntityById(Long cardEntityId) {
         return cardEntityRepository.findCardEntityById(cardEntityId);
     }
+
+    public CardEntity save(CardEntity cardEntity){
+        return cardEntityRepository.save(cardEntity);
+    }
 }

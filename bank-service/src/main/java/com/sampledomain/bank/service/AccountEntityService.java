@@ -25,4 +25,8 @@ public class AccountEntityService {
     public List<AccountEntity> findByBranchNameContaining(String branchName){
         return accountEntityRepository.findByBranchNameContaining(branchName);
     }
+
+    public AccountEntity save(AccountEntity accountEntity){
+        return accountEntityRepository.save(accountEntity);
+    }
 }
