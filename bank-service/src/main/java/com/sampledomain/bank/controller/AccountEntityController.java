@@ -6,6 +6,7 @@ import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.repository.UserEntityRepository;
 import com.sampledomain.bank.service.AccountEntityService;
 import com.sampledomain.bank.service.UserEntityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/V1")
+@Slf4j
 public class AccountEntityController {
 
     @Autowired
@@ -27,6 +29,7 @@ public class AccountEntityController {
 
     @GetMapping("/accounts/{accountEntityId}")
     public ResponseEntity<AccountEntity> findAccountEntityById(@PathVariable Long accountEntityId) throws ResourceNotFoundException {
+        log.info("AccountEntityController::findAccountEntityById");
         AccountEntity accountEntity = accountEntityService.findAccountEntityById(accountEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Account with id: " + accountEntityId));
         return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
