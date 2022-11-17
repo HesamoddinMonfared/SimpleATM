@@ -1,9 +1,12 @@
 package com.sampledomain.bank.service;
 
 import com.sampledomain.bank.entity.UserEntity;
+import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.repository.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserEntityService {
@@ -15,7 +18,7 @@ public class UserEntityService {
         return userEntityRepository.save(userEntity);
     }
 
-    public UserEntity findUserEntityById(Long userEntityId) {
+    public Optional<UserEntity> findUserEntityById(Long userEntityId) {
         return userEntityRepository.findUserEntityById(userEntityId);
     }
 }

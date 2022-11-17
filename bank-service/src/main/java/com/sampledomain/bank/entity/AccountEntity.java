@@ -1,13 +1,11 @@
 package com.sampledomain.bank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -18,4 +16,9 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long balance;
+    private String branchName;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    private UserEntity userEntity;
 }

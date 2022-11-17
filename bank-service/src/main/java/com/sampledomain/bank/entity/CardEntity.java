@@ -1,13 +1,11 @@
 package com.sampledomain.bank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -22,4 +20,8 @@ public class CardEntity {
     private String pinCode;
     private boolean isLocked;
     private Integer numOfPinFailed;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    private AccountEntity accountEntity;
 }

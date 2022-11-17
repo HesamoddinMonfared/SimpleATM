@@ -1,24 +1,31 @@
 package com.sampledomain.bank.controller;
 
 import com.sampledomain.bank.entity.UserEntity;
+import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/V1")
 public class UserEntityController {
 
     @Autowired
     private UserEntityService userEntityService;
 
-    @PostMapping("/")
-    public UserEntity saveUser(@RequestBody UserEntity userEntity){
-        return userEntityService.saveUserEntity(userEntity);
+    @PostMapping("/users/")
+    public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity){
+        UserEntity _userEntity = userEntityService.saveUserEntity(userEntity);
+        return new ResponseEntity<>(_userEntity, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public UserEntity findUserById(@PathVariable("id") Long userEntityId){
-        return userEntityService.findUserEntityById(userEntityId);
+    @GetMapping("/users/{userEntityId}")
+    public ResponseEntity<UserEntity> findUserEntityById(@PathVariable("userEntityId") Long userEntityId) throws ResourceNotFoundException {
+        UserEntity userEntity = userEntityService.findUserEntityById(userEntityId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found UserEntity with id: " + userEntityId));
+
+        return new ResponseEntity<>(userEntity, HttpStatus.OK);
     }
 }
