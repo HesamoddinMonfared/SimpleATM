@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication
+@EnableEurekaClient
 public class BankServiceApplication {
 
 	public static void main(String[] args) {

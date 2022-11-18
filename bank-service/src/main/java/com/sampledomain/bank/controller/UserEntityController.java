@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 @RestController
-@RequestMapping("/api/V1")
+@RequestMapping("/api/V1/banks")
 public class UserEntityController {
 
     @Autowired

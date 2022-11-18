@@ -1,0 +1,26 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: BANK-SERVICE
+          uri: lb://BANK-SERVICE
+          predicates:
+            - Path=/api/V1/banks/**
+        - id: ATM-SERVICE
+          uri: lb://ATM-SERVICE
+          predicates:
+            - Path=/api/V1/atms/**
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost

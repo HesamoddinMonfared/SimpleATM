@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/V1")
+@RequestMapping("/api/V1/banks")
 @Slf4j
 public class AccountEntityController {
 

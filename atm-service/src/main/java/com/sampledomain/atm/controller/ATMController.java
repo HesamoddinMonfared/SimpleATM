@@ -14,22 +14,24 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/api/V1")
+@RequestMapping("/api/V1/atms")
 @Slf4j
 public class ATMController {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping("/atm/login/{cardNumber}/{pinCode}")
+    @GetMapping("/login/{cardNumber}/{pinCode}")
     public ResponseEntity<String> loginWithPinCode(@PathVariable String cardNumber,
                                                    @PathVariable String pinCode){
+
         log.info("ATMController::loginWithPinCode");
         return null;
     }
 
-    @GetMapping("/atm/getBalance/{cardNumber}")
+    @GetMapping("/getBalance/{cardNumber}")
     public ResponseEntity<BigDecimal> getBalance(@PathVariable String cardNumber){
         return null;
     }
+
 }

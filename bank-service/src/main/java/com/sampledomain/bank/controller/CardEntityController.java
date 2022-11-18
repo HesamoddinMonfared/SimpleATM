@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/V1")
+@RequestMapping("/api/V1/banks")
 public class CardEntityController {
 
     @Autowired
