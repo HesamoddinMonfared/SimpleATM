@@ -11,10 +11,20 @@ spring:
           uri: lb://BANK-SERVICE
           predicates:
             - Path=/api/V1/banks/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: departmentCircuitBreaker
+                fallbackuri: forward:/bankServiceFallBack
         - id: ATM-SERVICE
           uri: lb://ATM-SERVICE
           predicates:
             - Path=/api/V1/atms/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: departmentCircuitBreaker
+                fallbackuri: forward:/atmServiceFallBack
 
 eureka:
   client:
@@ -24,3 +34,12 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     hostname: localhost
+
+
+
+resilience4j:
+  retry:
+    instances:
+      myRetry:
+        max-attempts: 3
+        wait-duration: 5

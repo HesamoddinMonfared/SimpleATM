@@ -3,6 +3,7 @@ package com.sampledomain.bank.controller;
 import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.service.UserEntityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/V1/banks")
+@Slf4j
 public class UserEntityController {
 
     @Autowired
