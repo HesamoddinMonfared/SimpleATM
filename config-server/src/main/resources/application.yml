@@ -1,0 +1,13 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: CONFIG-SERVER
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: resources/other.yml
+  profiles:
+    active: native
