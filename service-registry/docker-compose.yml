@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  backend:
+    image: service-registry:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "8761:8761/tcp"
+
+        
+    
