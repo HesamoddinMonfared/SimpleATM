@@ -1,23 +1,22 @@
 package com.sampledomain.bank.controller;
 
+import com.sampledomain.bank.entity.AccountEntity;
 import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.service.UserEntityService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/V1/banks")
 @Slf4j
 public class UserEntityController {
-
     @Autowired
     private UserEntityService userEntityService;
 
@@ -27,11 +26,12 @@ public class UserEntityController {
         return new ResponseEntity<>(_userEntity, HttpStatus.CREATED);
     }
 
-    @GetMapping("/users/{userEntityId}")
-    public ResponseEntity<UserEntity> findUserEntityById(@PathVariable("userEntityId") Long userEntityId) throws ResourceNotFoundException {
-        UserEntity userEntity = userEntityService.findUserEntityById(userEntityId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found UserEntity with id: " + userEntityId));
+    @GetMapping("/users/{userEntityNationalCode}")
+    public ResponseEntity<UserEntity> findUserEntityByNationalCode(@PathVariable("userEntityNationalCode") String userEntityNationalCode) throws ResourceNotFoundException {
+        var userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
+                //.orElseThrow(() -> new ResourceNotFoundException("Not found UserEntity with id: " + userEntityNationalCode));
 
+        if (userEntity==null) userEntity = new UserEntity(0L, "2050", "name-", "family-", "+98","fp", null);
         return new ResponseEntity<>(userEntity, HttpStatus.OK);
     }
 }

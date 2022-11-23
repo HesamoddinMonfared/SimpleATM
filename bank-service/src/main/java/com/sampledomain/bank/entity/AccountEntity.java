@@ -8,19 +8,39 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * {@link AccountEntity belongs to UserEntity object.
+ * Each UserEntity object can have multiple accounts,
+ * as well as each AccountEntity object has at most one CardEntity object.}
+ */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountEntity {
+    /**
+     * The account primary key
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    /**
+     * Account identification which is mix of digits and '-'.
+     */
     private String accountNumber;
     private BigDecimal balance;
     private Long branchId;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
+    /**
+     * it's used as user entity foreign key
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "user_entity_id", nullable = true, referencedColumnName = "id")//"id": is user table "id" column
     private UserEntity userEntity;
+
+    /**
+     * establish one-to-one relation with card entity
+     */
+    @OneToOne(mappedBy = "accountEntity")
+    @JsonIgnore
+    private CardEntity cardEntity;
 }

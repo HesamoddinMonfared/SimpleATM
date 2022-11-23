@@ -11,12 +11,8 @@ import java.util.Optional;
 @Repository
 public interface AccountEntityRepository extends JpaRepository<AccountEntity, Long> {
     Optional<AccountEntity> findAccountEntityById(Long accountEntityId);
-
     List<AccountEntity> findByUserEntityId(Long userEntityId);
-
     @Transactional
-    void deleteByUserEntityId(Long userEntityId);//delect all account for user, transactional
-
-    List<AccountEntity> findByBranchNameContaining(String branchName);
-
+    void deleteByUserEntityId(Long userEntityId);//delete all accounts for user, transactional
+    List<AccountEntity> findByBranchId(Long branchId);
 }

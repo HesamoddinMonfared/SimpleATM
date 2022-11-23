@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Service
 public class AccountEntityService {
-
     @Autowired
     private AccountEntityRepository accountEntityRepository;
 
@@ -22,11 +21,15 @@ public class AccountEntityService {
         return accountEntityRepository.findAll();
     }
 
-    public List<AccountEntity> findByBranchNameContaining(String branchName){
-        return accountEntityRepository.findByBranchNameContaining(branchName);
+    public List<AccountEntity> findByBranchId(Long branchId){
+        return accountEntityRepository.findByBranchId(branchId);
     }
 
     public AccountEntity save(AccountEntity accountEntity){
-        return accountEntityRepository.save(accountEntity);
+        try {
+            return accountEntityRepository.save(accountEntity);
+        } catch (Exception e) {
+          return null;
+        }
     }
 }

@@ -1,10 +1,13 @@
 package com.sampledomain.bank.controller;
 
+import com.sampledomain.bank.entity.AccountEntity;
 import com.sampledomain.bank.entity.CardEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
+import com.sampledomain.bank.helper.PrintOutput;
 import com.sampledomain.bank.service.AccountEntityService;
 import com.sampledomain.bank.service.CardEntityService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,69 +24,65 @@ public class CardEntityController {
     @Autowired
     private AccountEntityService accountEntityService;
 
-    @GetMapping("/cards/cardNumber/{cardEntityNumber}")
-    public ResponseEntity<CardEntity> findByCardNumber(@PathVariable String cardEntityNumber) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.findByCardNumber(cardEntityNumber)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
+    @GetMapping("/cards/enterCard/{cardEntityNumber}")
+    public ResponseEntity<String> enterCard(@PathVariable String cardEntityNumber) {
+        var message = cardEntityService.verifyEnteredCardByCardNumber(cardEntityNumber);
 
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping("/cards/cardNumberAndPinCode/{cardEntityNumber}/{cardEntityPinCode}")
-    public ResponseEntity<CardEntity> findByCardNumberAndPinCode(@PathVariable String cardEntityNumber, @PathVariable Short cardEntityPinCode) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.findByCardNumberAndPinCode(cardEntityNumber, cardEntityPinCode)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
+    @GetMapping("/cards/exitCard/{cardEntityNumber}")
+    public ResponseEntity<String> exitCard(@PathVariable String cardEntityNumber) {
+        var message = cardEntityService.verifyExitedCardByCardNumber(cardEntityNumber);
 
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping("/cards/cardNumberAndFingerprint/{cardEntityNumber}/{cardEntityFingerprint}")
-    public ResponseEntity<CardEntity> findByCardNumberAndFingerprint(@PathVariable String cardEntityNumber, @PathVariable String cardEntityFingerPrint) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.findByCardNumberAndFingerprint(cardEntityNumber, cardEntityFingerPrint)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
+    @GetMapping("/cards/loginByCardNumberAndPinCode/{cardEntityNumber}/{cardEntityPinCode}")
+    public ResponseEntity<String> loginByCardNumberAndPinCode(@PathVariable String cardEntityNumber, @PathVariable Short cardEntityPinCode) {
+        var message = cardEntityService.loginByCardNumberAndPinCode(cardEntityNumber, cardEntityPinCode);
 
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/cards/loginByCardNumberAndFingerprint/{cardEntityNumber}/{cardEntityFingerprint}")
+    public ResponseEntity<String> loginByCardNumberAndFingerprint(@PathVariable String cardEntityNumber, @PathVariable String cardEntityFingerprint) {
+        String message = cardEntityService.loginByCardNumberAndFingerprint(cardEntityNumber, cardEntityFingerprint);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/cards/balance/{cardEntityNumber}")
-    public ResponseEntity<BigDecimal> findBalance(@PathVariable String cardEntityNumber) throws ResourceNotFoundException {
-        BigDecimal bigDecimal = cardEntityService.findBalance(cardEntityNumber)
+    public ResponseEntity<PrintOutput> balance(@PathVariable String cardEntityNumber) throws ResourceNotFoundException {
+        PrintOutput print = cardEntityService.findBalance(cardEntityNumber)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
 
-        return new ResponseEntity<>(bigDecimal, HttpStatus.OK);
+        return new ResponseEntity<>(print, HttpStatus.OK);
     }
 
     @PostMapping("/cards/deposit/{cardEntityNumber}/{amount}")
-    public ResponseEntity<CardEntity> doDeposit(@PathVariable String cardEntityNumber, @PathVariable BigDecimal amount) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.doDeposit(cardEntityNumber, amount)
+    public ResponseEntity<PrintOutput> deposit(@PathVariable String cardEntityNumber, @PathVariable BigDecimal amount) throws ResourceNotFoundException {
+        PrintOutput print = cardEntityService.doDeposit(cardEntityNumber, amount)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
 
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
+        return new ResponseEntity<>(print, HttpStatus.OK);
     }
 
     @PostMapping("/cards/withdrawal/{cardEntityNumber}/{amount}")
-    public ResponseEntity<CardEntity> doWithdrawal(@PathVariable String cardEntityNumber, @PathVariable BigDecimal amount) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.doDeposit(cardEntityNumber, amount)
+    public ResponseEntity<PrintOutput> withdrawal(@PathVariable String cardEntityNumber, @PathVariable BigDecimal amount) throws ResourceNotFoundException {
+        PrintOutput print = cardEntityService.doDeposit(cardEntityNumber, amount)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Card %s not found.", cardEntityNumber)));
 
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
+        return new ResponseEntity<>(print, HttpStatus.OK);
     }
 
-    /*@GetMapping("/cards/{cardEntityId}")
-    public ResponseEntity<CardEntity> findCardEntityById(@PathVariable Long cardEntityId) throws ResourceNotFoundException {
-        CardEntity cardEntity = cardEntityService.findCardEntityById(cardEntityId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Card with id: " + cardEntityId));
-
-        return new ResponseEntity<>(cardEntity, HttpStatus.OK);
-    }
-
-    @PostMapping("/accounts/{accountEntityId}/cards/")
-    public ResponseEntity<CardEntity> createCard(@PathVariable Long accountEntityId,
-                                                 @RequestBody CardEntity cardEntity) throws ResourceNotFoundException {
+    @PostMapping("/cards/accounts/{accountEntityId}")
+    public ResponseEntity<CardEntity> saveCard(@PathVariable Long accountEntityId,
+                                               @RequestBody CardEntity cardEntity) throws ResourceNotFoundException {
         AccountEntity accountEntity = accountEntityService.findAccountEntityById(accountEntityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found account with id: " + accountEntityId));
         cardEntity.setAccountEntity(accountEntity);
         cardEntityService.save(cardEntity);
         return new ResponseEntity<>(cardEntity, HttpStatus.CREATED);
-    }*/
+    }
 }

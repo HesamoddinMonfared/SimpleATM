@@ -1,7 +1,6 @@
 package com.sampledomain.atm.service;
 
-import com.sampledomain.atm.entity.AccountEntity;
-import com.sampledomain.atm.entity.CardEntity;
+import com.sampledomain.atm.helper.PrintOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,39 +13,46 @@ public class CardEntityService {
     private RestTemplate restTemplate;
 
     private final String apiPath = "http://BANK-SERVICE/api/V1/banks/cards/";
+    //private final String apiPath = "http://localhost:9001/api/V1/banks/cards/";
 
-    public CardEntity findByCardNumber(String cardEntityNumber) {
-        CardEntity cardEntity = restTemplate.getForObject(String.format("%s/cardNumber/%s", cardEntityNumber), CardEntity.class);
-
-        return cardEntity;
-    }
-
-    public CardEntity findByCardNumberAndPinCode(Long cardEntityNumber, Short cardEntityPinCode) {
-        CardEntity cardEntity = restTemplate.getForObject(String.format("%s/cardNumberAndPinCode/%s/%s", cardEntityNumber, cardEntityPinCode), CardEntity.class);
+    public String enterCard(String cardEntityNumber) {
+        String cardEntity = restTemplate.getForObject(String.format(apiPath + "enterCard/%s", cardEntityNumber), String.class);
 
         return cardEntity;
     }
 
-    public CardEntity findByCardNumberAndFingerprint(Long cardEntityNumber, String cardEntityFingerprint) {
-        CardEntity cardEntity = restTemplate.getForObject(String.format("%s/cardNumberAndFingerprint/%s/%s", cardEntityNumber, cardEntityFingerprint), CardEntity.class);
+    public String exitCard(String cardEntityNumber) {
+        String cardEntity = restTemplate.getForObject(String.format(apiPath + "exitCard/%s", cardEntityNumber), String.class);
 
         return cardEntity;
     }
 
-    public AccountEntity findBalance(String cardNumber) {
-        AccountEntity accountEntity = restTemplate.getForObject(String.format("%s/balance/%s", cardNumber), AccountEntity.class);
+    public PrintOutput loginByCardNumberAndPinCode(String cardEntityNumber, Short cardEntityPinCode) {
+        PrintOutput cardEntity = restTemplate.getForObject(String.format(apiPath + "loginByCardNumberAndPinCode/%s/%s", cardEntityNumber, cardEntityPinCode), PrintOutput.class);
+
+        return cardEntity;
+    }
+
+    public PrintOutput loginByCardNumberAndFingerprint(String cardEntityNumber, String cardEntityFingerprint) {
+        PrintOutput cardEntity = restTemplate.getForObject(String.format(apiPath + "loginByCardNumberAndFingerprint/%s/%s", cardEntityNumber, cardEntityFingerprint), PrintOutput.class);
+
+        return cardEntity;
+    }
+
+    public PrintOutput balance(String cardNumber) {
+        PrintOutput accountEntity = restTemplate.getForObject(String.format(apiPath + "balance/%s", cardNumber), PrintOutput.class);
 
         return accountEntity/*.getBalance()*/;
     }
 
-    public AccountEntity doDeposit(String cardNumber, BigDecimal amount) {
-        AccountEntity accountEntity = restTemplate.getForObject(String.format("%s/deposit/%s/%s", cardNumber, amount), AccountEntity.class);
+    public PrintOutput deposit(String cardNumber, BigDecimal amount) {
+        PrintOutput accountEntity = restTemplate.getForObject(String.format(apiPath + "deposit/%s/%s", cardNumber, amount), PrintOutput.class);
 
         return accountEntity;
     }
 
-    public AccountEntity doWithdrawal(String cardNumber, BigDecimal amount) {
-        AccountEntity accountEntity = restTemplate.getForObject(String.format("%s/withdrawal/%s/%s", cardNumber, amount), AccountEntity.class);
+    public PrintOutput withdrawal(String cardNumber, BigDecimal amount) {
+        PrintOutput accountEntity = restTemplate.getForObject(String.format(apiPath + "withdrawal/%s/%s", cardNumber, amount), PrintOutput.class);
 
         return accountEntity;
     }
