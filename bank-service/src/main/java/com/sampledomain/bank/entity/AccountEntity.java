@@ -47,6 +47,7 @@ public class AccountEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "user_entity_id", nullable = true, referencedColumnName = "id")//"id": is user table "id" column
+    @JsonIgnore
     private UserEntity userEntity;
 
     /**

@@ -17,6 +17,10 @@ public class AccountEntityService {
         return accountEntityRepository.findAccountEntityById(accountEntityId);
     }
 
+    public Optional<AccountEntity> findAccountEntityByNumber(String accountEntityNumber) {
+        return accountEntityRepository.findByAccountNumber(accountEntityNumber);
+    }
+
     public List<AccountEntity> findAll(){
         return accountEntityRepository.findAll();
     }

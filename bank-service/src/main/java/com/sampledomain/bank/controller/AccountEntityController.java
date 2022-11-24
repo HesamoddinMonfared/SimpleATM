@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 
 /**
@@ -71,16 +71,17 @@ public class AccountEntityController {
      * @throws ResourceNotFoundException
      */
     @PostMapping("/users/{userEntityNationalCode}/accounts")
-    public ResponseEntity<AccountEntity> saveAccount(@PathVariable String userEntityNationalCode, @RequestBody AccountEntity accountEntity) throws ResourceNotFoundException {
-        UserEntity userEntity;
-        if (!Objects.equals(userEntityNationalCode, "0")) {
-            userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
-            //.orElseThrow(() -> new ResourceNotFoundException("Not found user with id: " + userEntityNationalCode));
-        } else {
-            userEntity = userEntityService.saveUserEntity(accountEntity.getUserEntity());
+    public ResponseEntity<Object> saveAccount(@PathVariable String userEntityNationalCode, @RequestBody AccountEntity accountEntity) throws ResourceNotFoundException {
+        if (accountEntityService.findAccountEntityByNumber(accountEntity.getAccountNumber()).isPresent()) {
+            return new ResponseEntity<>("account exist already." , HttpStatus.ALREADY_REPORTED);
         }
 
-        accountEntity.setUserEntity(userEntity);
+        Optional<UserEntity> userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
+        if (userEntity.isEmpty()) {
+            return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.EXPECTATION_FAILED);
+        }
+
+        accountEntity.setUserEntity(userEntity.get());
         accountEntityService.save(accountEntity);
         return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
     }

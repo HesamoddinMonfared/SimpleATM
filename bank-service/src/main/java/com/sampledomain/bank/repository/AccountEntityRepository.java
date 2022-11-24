@@ -19,6 +19,8 @@ public interface AccountEntityRepository extends JpaRepository<AccountEntity, Lo
      */
     Optional<AccountEntity> findAccountEntityById(Long accountEntityId);
 
+    Optional<AccountEntity> findByAccountNumber(String accountNumber);
+
     /**
      * @param branchId Find accounts related to specified branch by branchId.
      * @return List of account records by their specified branchId.

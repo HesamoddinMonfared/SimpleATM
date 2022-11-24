@@ -16,7 +16,7 @@ public class UserEntityService {
         return userEntityRepository.save(userEntity);
     }
 
-    public UserEntity findUserEntityByNationalCode(String userEntityNationalCode) {
+    public Optional<UserEntity> findUserEntityByNationalCode(String userEntityNationalCode) {
         return userEntityRepository.findByNationalCode(userEntityNationalCode);
     }
 }

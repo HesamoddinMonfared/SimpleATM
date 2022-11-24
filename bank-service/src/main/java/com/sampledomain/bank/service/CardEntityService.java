@@ -3,10 +3,9 @@ package com.sampledomain.bank.service;
 
 import com.sampledomain.bank.entity.CardEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
-import com.sampledomain.bank.helper.PasswordType;
+import com.sampledomain.bank.entity.PasswordType;
 import com.sampledomain.bank.helper.PrintOutput;
 import com.sampledomain.bank.repository.CardEntityRepository;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
