@@ -1,6 +1,6 @@
 package com.sampledomain.bank.entity;
 
-import com.sampledomain.bank.helper.PasswordType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +25,8 @@ public class CardEntity {
         return numOfFailedTimes >= 3;
     }
 
-    //@JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "account_entity_id", nullable = true, referencedColumnName = "id")//"id": is card table "id" column
+    @JsonIgnore
     private AccountEntity accountEntity;
 }

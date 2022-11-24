@@ -24,17 +24,30 @@ public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     /**
-     * Account identification which is mix of digits and '-'.
+     * Account number containing mixture of digits and seperated dash-line.
      */
     private String accountNumber;
+
+
+    /**
+     * Amount of money saved for the owner of account.
+     */
     private BigDecimal balance;
+
+
+    /**
+     * Id of branch to find branch name.
+     */
     private Long branchId;
+
     /**
      * it's used as user entity foreign key
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "user_entity_id", nullable = true, referencedColumnName = "id")//"id": is user table "id" column
+    @JsonIgnore
     private UserEntity userEntity;
 
     /**

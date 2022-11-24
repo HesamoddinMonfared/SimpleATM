@@ -7,13 +7,13 @@ import com.sampledomain.bank.helper.PrintOutput;
 import com.sampledomain.bank.service.AccountEntityService;
 import com.sampledomain.bank.service.CardEntityService;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -77,12 +77,23 @@ public class CardEntityController {
     }
 
     @PostMapping("/cards/accounts/{accountEntityId}")
-    public ResponseEntity<CardEntity> saveCard(@PathVariable Long accountEntityId,
-                                               @RequestBody CardEntity cardEntity) throws ResourceNotFoundException {
-        AccountEntity accountEntity = accountEntityService.findAccountEntityById(accountEntityId)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found account with id: " + accountEntityId));
-        cardEntity.setAccountEntity(accountEntity);
-        cardEntityService.save(cardEntity);
-        return new ResponseEntity<>(cardEntity, HttpStatus.CREATED);
+    public ResponseEntity<Object> saveCard(@PathVariable Long accountEntityId,
+                                               @RequestBody CardEntity cardEntity) {
+        try {
+            if (cardEntityService.findCardByCardNumber(cardEntity.getCardNumber()).isPresent()) {
+                return new ResponseEntity<>("Card exists already.", HttpStatus.ALREADY_REPORTED);
+            }
+
+            Optional<AccountEntity> accountEntity = accountEntityService.findAccountEntityById(accountEntityId);
+            if (accountEntity.isEmpty()) {
+                return new ResponseEntity<>("Account with specified account id not exists.", HttpStatus.EXPECTATION_FAILED);
+            }
+
+            cardEntity.setAccountEntity(accountEntity.get());
+            cardEntityService.save(cardEntity);
+            return new ResponseEntity<>(cardEntity, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(cardEntity, HttpStatus.BAD_REQUEST);
+        }
     }
 }

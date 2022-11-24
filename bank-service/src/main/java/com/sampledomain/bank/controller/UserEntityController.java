@@ -5,7 +5,6 @@ import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.service.UserEntityService;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +19,20 @@ public class UserEntityController {
     @Autowired
     private UserEntityService userEntityService;
 
-    @PostMapping("/users/")
+    @PostMapping("/users")
     public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity){
         UserEntity _userEntity = userEntityService.saveUserEntity(userEntity);
         return new ResponseEntity<>(_userEntity, HttpStatus.CREATED);
     }
 
     @GetMapping("/users/{userEntityNationalCode}")
-    public ResponseEntity<UserEntity> findUserEntityByNationalCode(@PathVariable("userEntityNationalCode") String userEntityNationalCode) throws ResourceNotFoundException {
+    public ResponseEntity<Object> findUserEntityByNationalCode(@PathVariable("userEntityNationalCode") String userEntityNationalCode) throws ResourceNotFoundException {
         var userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
-                //.orElseThrow(() -> new ResourceNotFoundException("Not found UserEntity with id: " + userEntityNationalCode));
 
-        if (userEntity==null) userEntity = new UserEntity(0L, "2050", "name-", "family-", "+98","fp", null);
-        return new ResponseEntity<>(userEntity, HttpStatus.OK);
+        if (userEntity.isEmpty())
+            return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.EXPECTATION_FAILED);
+
+        return new ResponseEntity<>(userEntity.get(), HttpStatus.OK);
     }
 
 }
