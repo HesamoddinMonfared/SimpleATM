@@ -15,13 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * {@link AccountEntityController class manages rest-api requests for the owner of account.}
+ */
 @RestController
 @RequestMapping("/api/V1/banks")
 @Slf4j
 public class AccountEntityController {
+    /**
+     * Service object for account class
+     */
     @Autowired
     private AccountEntityService accountEntityService;
 
+    /**
+     * Service object for user class
+     */
     @Autowired
     private UserEntityService userEntityService;
 
@@ -33,6 +43,10 @@ public class AccountEntityController {
 //        return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
 //    }
 
+    /**
+     * @param branchId The id of branch to find accounts related to specified branch name.
+     * @return list of accounts related to branchId
+     */
     @GetMapping("/accounts/{branchId}")
     public ResponseEntity<List<AccountEntity>> getAllAccounts(@PathVariable(required = false) Long branchId) {
         List<AccountEntity> accountEntities = new ArrayList<>();
@@ -50,6 +64,12 @@ public class AccountEntityController {
         }
     }
 
+    /**
+     * @param userEntityNationalCode The nationalCode of account's owner to establish connection between user and coming account.
+     * @param accountEntity The account information to save in database.
+     * @return The whole information about account containing the related user info.
+     * @throws ResourceNotFoundException
+     */
     @PostMapping("/users/{userEntityNationalCode}/accounts")
     public ResponseEntity<AccountEntity> saveAccount(@PathVariable String userEntityNationalCode, @RequestBody AccountEntity accountEntity) throws ResourceNotFoundException {
         UserEntity userEntity;
