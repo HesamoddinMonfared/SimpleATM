@@ -6,8 +6,13 @@ import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.helper.PasswordType;
 import com.sampledomain.bank.helper.PrintOutput;
 import com.sampledomain.bank.repository.CardEntityRepository;
+import com.sampledomain.bank.security.jwt.JwtUtils;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,6 +23,10 @@ import java.util.Optional;
 public class CardEntityService {
     @Autowired
     private CardEntityRepository cardEntityRepository;
+
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     public String verifyEnteredCardByCardNumber(String cardEntityNumber) {
         var cardEntity = cardEntityRepository.findByCardNumber(cardEntityNumber);
@@ -92,7 +101,10 @@ public class CardEntityService {
 
         cardByCardNumber.get().setNumOfFailedTimes(0);
         cardEntityRepository.save(cardByCardNumber.get());
-        return "Login successfully. Please proceed.";
+
+        String jwt = jwtUtils.generateJwtToken();
+
+        return jwt; //Login successfully
     }
 
     public String loginByCardNumberAndFingerprint(String cardEntityNumber, String cardEntityFingerprint) {
@@ -124,7 +136,10 @@ public class CardEntityService {
 
         cardByCardNumber.get().setNumOfFailedTimes(0);
         cardEntityRepository.save(cardByCardNumber.get());
-        return "Login successfully. Please proceed.";
+
+        String jwt = jwtUtils.generateJwtToken();
+
+        return jwt; //Login successfully
     }
 
     public Optional<PrintOutput> findBalance(String cardEntityNumber) throws ResourceNotFoundException {

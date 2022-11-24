@@ -17,9 +17,9 @@ public class BankServiceApplication {
 		SpringApplication.run(BankServiceApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.sampledomain.bank")).build();
-	}
+	}*/
 }
