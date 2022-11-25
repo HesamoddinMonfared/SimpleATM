@@ -39,14 +39,14 @@ public class CardEntityController {
     }
 
     @GetMapping("/cards/loginByCardNumberAndPinCode/{cardEntityNumber}/{cardEntityPinCode}")
-    public ResponseEntity<String> loginByCardNumberAndPinCode(@PathVariable String cardEntityNumber, @PathVariable Short cardEntityPinCode) {
+    public ResponseEntity<String> loginByCardNumberAndPinCode(@PathVariable String cardEntityNumber, @PathVariable Short cardEntityPinCode) throws ResourceNotFoundException {
         var message = cardEntityService.loginByCardNumberAndPinCode(cardEntityNumber, cardEntityPinCode);
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/cards/loginByCardNumberAndFingerprint/{cardEntityNumber}/{cardEntityFingerprint}")
-    public ResponseEntity<String> loginByCardNumberAndFingerprint(@PathVariable String cardEntityNumber, @PathVariable String cardEntityFingerprint) {
+    public ResponseEntity<String> loginByCardNumberAndFingerprint(@PathVariable String cardEntityNumber, @PathVariable String cardEntityFingerprint) throws ResourceNotFoundException {
         String message = cardEntityService.loginByCardNumberAndFingerprint(cardEntityNumber, cardEntityFingerprint);
 
         return new ResponseEntity<>(message, HttpStatus.OK);

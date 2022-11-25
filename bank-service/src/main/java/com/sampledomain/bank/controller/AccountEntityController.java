@@ -34,32 +34,28 @@ public class AccountEntityController {
     @Autowired
     private UserEntityService userEntityService;
 
-//    @GetMapping("/accounts/{accountEntityId}")
-//    public ResponseEntity<AccountEntity> findAccountEntityById(@PathVariable Long accountEntityId) throws ResourceNotFoundException {
-//        log.info("AccountEntityController::findAccountEntityById");
-//        AccountEntity accountEntity = accountEntityService.findAccountEntityById(accountEntityId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Not found Account with id: " + accountEntityId));
-//        return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
-//    }
-
     /**
      * @param branchId The id of branch to find accounts related to specified branch name.
      * @return list of accounts related to branchId
      */
     @GetMapping("/accounts/{branchId}")
-    public ResponseEntity<List<AccountEntity>> getAllAccounts(@PathVariable(required = false) Long branchId) {
-        List<AccountEntity> accountEntities = new ArrayList<>();
+    public ResponseEntity<List<AccountEntity>> getAllAccounts(@PathVariable(required = false) Long branchId) throws ResourceNotFoundException {
+        try {
+            List<AccountEntity> accountEntities = new ArrayList<>();
 
-        if (branchId == null) {
-            accountEntities.addAll(accountEntityService.findAll());
-        } else {
-            accountEntities.addAll(accountEntityService.findByBranchId(branchId));
-        }
+            if (branchId == null) {
+                accountEntities.addAll(accountEntityService.findAll());
+            } else {
+                accountEntities.addAll(accountEntityService.findByBranchId(branchId));
+            }
 
-        if (accountEntities.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+            if (accountEntities.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
             return new ResponseEntity<>(accountEntities, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
         }
     }
 
@@ -71,17 +67,21 @@ public class AccountEntityController {
      */
     @PostMapping("/users/{userEntityNationalCode}/accounts")
     public ResponseEntity<Object> saveAccount(@PathVariable String userEntityNationalCode, @RequestBody AccountEntity accountEntity) throws ResourceNotFoundException {
-        if (accountEntityService.findAccountEntityByNumber(accountEntity.getAccountNumber()).isPresent()) {
-            return new ResponseEntity<>("account exist already." , HttpStatus.ALREADY_REPORTED);
-        }
+        try {
+            if (accountEntityService.findAccountEntityByNumber(accountEntity.getAccountNumber()).isPresent()) {
+                return new ResponseEntity<>("account exist already.", HttpStatus.ALREADY_REPORTED);
+            }
 
-        Optional<UserEntity> userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
-        if (userEntity.isEmpty()) {
-            return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.EXPECTATION_FAILED);
-        }
+            Optional<UserEntity> userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
+            if (userEntity.isEmpty()) {
+                return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.EXPECTATION_FAILED);
+            }
 
-        accountEntity.setUserEntity(userEntity.get());
-        accountEntityService.save(accountEntity);
-        return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
+            accountEntity.setUserEntity(userEntity.get());
+            accountEntityService.save(accountEntity);
+            return new ResponseEntity<>(accountEntity, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("message in AccountEntityController::saveAccount: " + e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 }

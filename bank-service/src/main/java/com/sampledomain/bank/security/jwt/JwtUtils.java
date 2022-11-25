@@ -19,16 +19,24 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken() {
-        return Jwts.builder()
-                .setSubject(("card number"))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+        try {
+            return Jwts.builder()
+                    .setSubject(("card number"))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        try {
+            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public boolean validateJwtToken(String authToken) {

@@ -12,8 +12,8 @@ public class CardEntityService {
     @Autowired
     private RestTemplate restTemplate;
 
-//    private final String apiPath = "http://BANK-SERVICE/api/V1/banks/cards/";
-    private final String apiPath = "http://localhost:9001/api/V1/banks/cards/";
+//    private final String apiPath = "https://BANK-SERVICE/api/V1/banks/cards/";
+    private final String apiPath = "https://localhost:9001/api/V1/banks/cards/";
 
     public String enterCard(String cardEntityNumber) {
         try {
