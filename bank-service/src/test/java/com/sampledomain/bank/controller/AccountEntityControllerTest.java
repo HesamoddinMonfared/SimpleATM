@@ -1,18 +1,22 @@
 package com.sampledomain.bank.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sampledomain.bank.service.AccountEntityService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
-//@WebMvcTest(value = CardEntityController.class)
+@WebMvcTest(value = AccountEntityController.class)
 @WithMockUser
-class CardEntityControllerTest {
-    private CardEntityController cardEntityController;
+class AccountEntityControllerTest {
+    @MockBean
+    private AccountEntityService accountEntityService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -21,6 +25,6 @@ class CardEntityControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void enterCard() {
+    void getAllAccounts() {
     }
 }

@@ -1,18 +1,12 @@
 package com.sampledomain.bank.service;
 
-
 import com.sampledomain.bank.entity.CardEntity;
-import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.entity.PasswordType;
+import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.helper.PrintOutput;
 import com.sampledomain.bank.repository.CardEntityRepository;
 import com.sampledomain.bank.security.jwt.JwtUtils;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

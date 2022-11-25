@@ -1,6 +1,5 @@
 package com.sampledomain.bank.security.jwt;
 
-
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken() {
-
         return Jwts.builder()
                 .setSubject(("card number"))
                 .setIssuedAt(new Date())

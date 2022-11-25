@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
  * {@link AccountEntityController class manages rest-api requests for the owner of account.}
  */

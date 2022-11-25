@@ -5,6 +5,7 @@ import com.sampledomain.bank.repository.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,5 +19,9 @@ public class UserEntityService {
 
     public Optional<UserEntity> findUserEntityByNationalCode(String userEntityNationalCode) {
         return userEntityRepository.findByNationalCode(userEntityNationalCode);
+    }
+
+    public List<UserEntity> findAllUsers() {
+        return userEntityRepository.findAll();
     }
 }

@@ -1,6 +1,5 @@
 package com.sampledomain.bank.security.jwt;
 
-
 import com.sampledomain.bank.service.CardEntityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,17 +46,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);*/
-                request.getRequestDispatcher(((HttpServletRequest) request).getServletPath()).forward(request, response);
-
-            }
-            else{
+                request.getRequestDispatcher(request.getServletPath()).forward(request, response);
+            } else {
                 filterChain.doFilter(request, response);
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-
-        //filterChain.doFilter(request, response);
     }
 
     private String parseJwt(HttpServletRequest request) {

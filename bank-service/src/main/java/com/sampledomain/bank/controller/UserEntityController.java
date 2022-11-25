@@ -1,6 +1,5 @@
 package com.sampledomain.bank.controller;
 
-import com.sampledomain.bank.entity.AccountEntity;
 import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.exception.ResourceNotFoundException;
 import com.sampledomain.bank.service.UserEntityService;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/V1/banks")
@@ -25,14 +22,20 @@ public class UserEntityController {
         return new ResponseEntity<>(_userEntity, HttpStatus.CREATED);
     }
 
-    @GetMapping("/users/{userEntityNationalCode}")
+    @GetMapping("/users/findUserEntityByNationalCode/{userEntityNationalCode}")
     public ResponseEntity<Object> findUserEntityByNationalCode(@PathVariable("userEntityNationalCode") String userEntityNationalCode) throws ResourceNotFoundException {
         var userEntity = userEntityService.findUserEntityByNationalCode(userEntityNationalCode);
 
         if (userEntity.isEmpty())
-            return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>("User with specified national-code not exists.", HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(userEntity.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/users/findAllUsers}")
+    public ResponseEntity<Object> findAllUsers() {
+        var allUsers = userEntityService.findAllUsers();
+
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    }
 }
