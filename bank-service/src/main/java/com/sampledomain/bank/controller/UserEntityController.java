@@ -17,7 +17,7 @@ public class UserEntityController {
     private UserEntityService userEntityService;
 
     @PostMapping("/users")
-    public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity){
+    public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity) throws ResourceNotFoundException {
         UserEntity _userEntity = userEntityService.saveUserEntity(userEntity);
         return new ResponseEntity<>(_userEntity, HttpStatus.CREATED);
     }
@@ -32,8 +32,8 @@ public class UserEntityController {
         return new ResponseEntity<>(userEntity.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/users/findAllUsers}")
-    public ResponseEntity<Object> findAllUsers() {
+    @GetMapping("/users/findAllUsers")
+    public ResponseEntity<Object> findAllUsers() throws ResourceNotFoundException {
         var allUsers = userEntityService.findAllUsers();
 
         return new ResponseEntity<>(allUsers, HttpStatus.OK);

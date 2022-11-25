@@ -27,7 +27,24 @@ class CardEntityControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
-    void enterCard() {
+    void shouldUpdateTutorial() {
+//        String cardNumber = "504171080286363";
+//        BigDecimal amount = BigDecimal.valueOf(200);
+//        CardEntity card = new CardEntity(1L, cardNumber, (short) 1576, 0, false, PasswordType.Pin, new AccountEntity());
+//        AccountEntity account = card.getAccountEntity();
+//        UserEntity user = account.getUserEntity();
+//
+//        PrintOutput printOutput = new PrintOutput(LocalDateTime.now(), user.fullName(), card.getCardNumber(), account.getAccountNumber(), account.getBalance().add(amount));
+//
+//        when(cardEntityService.findCardByCardNumber(cardNumber)).thenReturn(Optional.of(card));
+//        when(cardEntityService.doDeposit(cardNumber, amount)).thenReturn(Optional.of(printOutput));
+//
+//        mockMvc.perform(post("/api/V1/banks/cards/deposit/{cardEntityNumber}/{amount}", cardNumber, amount).contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(printOutput)))
+//                .andExpect(status().isOk())
+////                .andExpect(jsonPath("$.title").value(updatedtutorial.getTitle()))
+////                .andExpect(jsonPath("$.description").value(updatedtutorial.getDescription()))
+////                .andExpect(jsonPath("$.published").value(updatedtutorial.isPublished()))
+//                .andDo(print());
     }
 }
