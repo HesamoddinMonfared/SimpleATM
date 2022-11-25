@@ -1,4 +1,4 @@
-package com.sampledomain.atm.helper;
+package com.sampledomain.atm.utility;
 
 public enum PasswordType {
     //@Description("PIN")

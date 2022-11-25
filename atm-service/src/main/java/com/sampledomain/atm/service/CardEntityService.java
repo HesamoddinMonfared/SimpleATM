@@ -1,6 +1,6 @@
 package com.sampledomain.atm.service;
 
-import com.sampledomain.atm.helper.PrintOutput;
+import com.sampledomain.atm.utility.PrintOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,13 +12,17 @@ public class CardEntityService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String apiPath = "http://BANK-SERVICE/api/V1/banks/cards/";
-    //private final String apiPath = "http://localhost:9001/api/V1/banks/cards/";
+//    private final String apiPath = "http://BANK-SERVICE/api/V1/banks/cards/";
+    private final String apiPath = "http://localhost:9001/api/V1/banks/cards/";
 
     public String enterCard(String cardEntityNumber) {
-        String cardEntity = restTemplate.getForObject(String.format(apiPath + "enterCard/%s", cardEntityNumber), String.class);
+        try {
+            String cardEntity = restTemplate.getForObject(String.format(apiPath + "enterCard/%s", cardEntityNumber), String.class);
 
-        return cardEntity;
+            return cardEntity;
+        } catch (Exception e) {
+            return "error message: " + e.getMessage();
+        }
     }
 
     public String exitCard(String cardEntityNumber) {

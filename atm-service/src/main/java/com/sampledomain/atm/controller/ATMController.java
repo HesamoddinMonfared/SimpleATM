@@ -1,6 +1,6 @@
 package com.sampledomain.atm.controller;
 
-import com.sampledomain.atm.helper.PrintOutput;
+import com.sampledomain.atm.utility.PrintOutput;
 import com.sampledomain.atm.service.CardEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.sampledomain.atm.helper;
+package com.sampledomain.atm.utility;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
