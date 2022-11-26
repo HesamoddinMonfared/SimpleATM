@@ -5,7 +5,7 @@ services:
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     ports:
-        - "9001:9001/tcp"
+        - "9001:9001"
 
         
     
