@@ -1,11 +1,76 @@
 package com.sampledomain.bank.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.sampledomain.bank.entity.UserEntity;
+import com.sampledomain.bank.service.UserEntityService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(value = UserEntityController.class)
+@WithMockUser
+public class UserEntityControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private UserEntityService userEntityService;
+
+    @Test
+    public void testFindUserEntityByNationalCode() throws Exception {
+        UserEntity mockUserEntity = new UserEntity(1L, "2", "Ali", "ahmadi", "0912", "12345", null);
+
+        Mockito.when(userEntityService.findUserEntityByNationalCode("2")).thenReturn(Optional.of(mockUserEntity));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+                "/api/V1/banks/users/findUserEntityByNationalCode/2").accept(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+        String expected = "{\"id\":1,\"nationalCode\":\"2\",\"name\":\"Ali\",\"family\":\"ahmadi\",\"mobile\":\"0912\",\"fingerprint\":\"12345\"}";
+        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+    }
+
+    @Test
+    public void testSaveUser() throws Exception {
+        UserEntity mockUserEntity = new UserEntity(10L, "2", "Ali", "ahmadi", "0912", "12345", null);
+        String exampleUserJson = "{\"id\":10,\"nationalCode\":\"2\",\"name\":\"Ali\",\"family\":\"ahmadi\",\"mobile\":\"0912\",\"fingerprint\":\"12345\"}";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/V1/banks/users/")
+                .accept(MediaType.APPLICATION_JSON).content(exampleUserJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
+    }
+}
+/*import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.service.UserEntityService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,9 +97,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
+//@AutoConfigureTestDatabase
 public class UserEntityControllerTest {
-    @MockBean
-    private UserEntityService userEntityService;
+    //@MockBean
+    private UserEntityService userEntityService = new UserEntityService();
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +122,8 @@ public class UserEntityControllerTest {
     void shouldReturnTutorial() throws Exception {
         String nationalCode = "205";
         UserEntity user = new UserEntity(1l, nationalCode, "esmaeil", "chitgar", "+98911", "fingerchitgar", new ArrayList<>());
+
+        userEntityService.saveUserEntity(user);
 
         when(userEntityService.findUserEntityByNationalCode(nationalCode)).thenReturn(Optional.of(user));
         mockMvc.perform(get("/api/V1/banks/users/{userEntityNationalCode}", nationalCode))
@@ -91,3 +159,4 @@ public class UserEntityControllerTest {
                 .andDo(print());
     }
 }
+*/
