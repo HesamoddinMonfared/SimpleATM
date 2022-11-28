@@ -1,6 +1,7 @@
 package com.sampledomain.bank.controller;
 
 
+import com.sampledomain.bank.BankServiceApplication;
 import com.sampledomain.bank.entity.UserEntity;
 import com.sampledomain.bank.service.UserEntityService;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +36,7 @@ public class UserEntityControllerTest {
     private UserEntityService userEntityService;
 
     @Test
-    public void testFindUserEntityByNationalCode() throws Exception {
+    public void UserEntityController_whenFindUserByNationalCode_thenOK() throws Exception {
         UserEntity mockUserEntity = new UserEntity(1L, "2", "Ali", "ahmadi", "0912", "12345", null);
 
         Mockito.when(userEntityService.findUserEntityByNationalCode("2")).thenReturn(Optional.of(mockUserEntity));
@@ -48,9 +50,10 @@ public class UserEntityControllerTest {
     }
 
     @Test
-    public void testSaveUser() throws Exception {
-        UserEntity mockUserEntity = new UserEntity(10L, "2", "Ali", "ahmadi", "0912", "12345", null);
-        String exampleUserJson = "{\"id\":10,\"nationalCode\":\"2\",\"name\":\"Ali\",\"family\":\"ahmadi\",\"mobile\":\"0912\",\"fingerprint\":\"12345\"}";
+    public void UserEntityController_whenSaveRequest_thenOK() throws Exception {
+        String exampleUserJson = "{\"id\":1,\"nationalCode\":\"2\",\"name\":\"Ali\",\"family\":\"ahmadi\",\"mobile\":\"0912\",\"fingerprint\":\"12345\"}";
+        UserEntity mockUserEntity = new UserEntity(1L, "2", "Ali", "ahmadi", "0912", "12345", null);
+        Mockito.when(userEntityService.saveUserEntity(mockUserEntity)).thenReturn(mockUserEntity);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/V1/banks/users/")
