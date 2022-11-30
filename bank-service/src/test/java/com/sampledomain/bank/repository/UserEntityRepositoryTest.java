@@ -16,6 +16,7 @@ public class UserEntityRepositoryTest {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
+	
     @Test
     @Transactional
     public void userEntityRepository_whenSaveAndRetreiveEntity_thenOK() {
@@ -27,4 +28,5 @@ public class UserEntityRepositoryTest {
         System.out.println(foundEntity.get());
         Assert.isTrue(userEntity.equals(foundEntity.get()));
     }
+	
 }

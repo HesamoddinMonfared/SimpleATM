@@ -13,6 +13,7 @@ class BankServiceApplicationTests {
 	@Autowired
 	private UserEntityController userEntityController;
 
+
 	@Test
 	void contextLoads() {
 		assertThat(userEntityController).isNotNull();
