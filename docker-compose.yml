@@ -1,0 +1,73 @@
+version: "3.8"
+services:
+  service-registry:
+    image: service-registry:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "8761:8761"
+        
+        
+        
+  config-server:
+    image: config-server:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9010:9010"
+    environment: 
+        # Important for clients to register with eureka
+        - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka/ 
+    depends_on:
+        - service-registry
+    links:
+        - service-registry
+        
+        
+        
+  cloud-gateway:
+    image: cloud-gateway:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9191:9191/tcp"
+    environment: 
+        - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka/ 
+    depends_on:
+        - service-registry
+    links:
+        - service-registry
+        
+        
+        
+  bank-service:
+    image: bank-service:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9001:9001"
+    environment: 
+        - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka/ 
+    depends_on:
+        - service-registry
+    links:
+        - service-registry
+        
+        
+        
+  atm-service:
+    image: atm-service:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9002:9002/tcp"
+    environment: 
+        - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka/ 
+    depends_on:
+        - service-registry
+    links:
+        - service-registry
+
+
+        
+    
