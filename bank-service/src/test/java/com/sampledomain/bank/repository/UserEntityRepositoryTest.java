@@ -19,7 +19,7 @@ public class UserEntityRepositoryTest {
 	
     @Test
     @Transactional
-    public void userEntityRepository_whenSaveAndRetreiveEntity_thenOK() {
+    public void userEntityRepository_whenSaveAndRetrieveEntity_thenOK() {
         UserEntity userEntity = userEntityRepository.save(
                 new UserEntity(10L, "2", "Ali", "ahmadi", "0912", "12345", null));
 
