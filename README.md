@@ -1,15 +1,11 @@
 # Simple ATM Emulator
 
-[TOCM]
-
-[TOC]
-
 ## List of services
-- Bank-service : Access right to database
-- Atm-service: Access forbidden to database and make request through bank-service
-- Service-registry: register all services via eureka 
-- Cloud-gateway: an interface between all services and user request
-- Config-server: save all common settings in this service in order to change settings in only one place.
+- bank-service : Access right to database
+- atm-service: Access forbidden to database and make request through bank-service
+- service-registry: register all services via eureka 
+- cloud-gateway: an interface between all services and user request
+- config-server: save all common settings in this service in order to change settings in only one place.
 
 ## Port numbers for services
 - bank-service: 9001
@@ -63,3 +59,9 @@
 
 ## The architecture 
 ![](https://i.postimg.cc/T3hXF1d1/microservice-architecture.png)
+
+
+
+[TOCM]
+
+[TOC]
