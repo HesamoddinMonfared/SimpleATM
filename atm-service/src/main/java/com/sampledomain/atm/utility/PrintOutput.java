@@ -3,7 +3,6 @@ package com.sampledomain.atm.utility;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sampledomain.atm.utility.PrintOutput;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -41,13 +41,8 @@ public class WebSecurityConfig   {
                 .antMatchers("/api/V1/banks/cards/balance/**").authenticated()
                 .antMatchers("/api/V1/banks/cards/deposit/**").authenticated()
                 .antMatchers("/api/V1/banks/cards/withdrawal/**").authenticated();
-        //.anyRequest().authenticated()
-
-        //http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        //http.addFilterBefore(authenticationJwtTokenFilter(), JwtAuthenticationToken.class);
 
         return http.build();
     }

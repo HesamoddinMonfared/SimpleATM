@@ -28,5 +28,4 @@ public class UserEntityRepositoryTest {
         System.out.println(foundEntity.get());
         Assert.isTrue(userEntity.equals(foundEntity.get()));
     }
-	
 }
