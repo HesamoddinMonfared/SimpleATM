@@ -14,7 +14,7 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: departmentCircuitBreaker
+                name: bankCircuitBreaker
                 fallbackuri: forward:/bankServiceFallBack
         - id: ATM-SERVICE
           uri: lb://ATM-SERVICE
@@ -23,7 +23,7 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: departmentCircuitBreaker
+                name: atmCircuitBreaker
                 fallbackuri: forward:/atmServiceFallBack
 
 

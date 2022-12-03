@@ -40,7 +40,7 @@ public class AtmServiceApplication {
 	}
 
 	@Bean
-	@LoadBalanced
+	//@LoadBalanced
 	RestTemplate restTemplate() throws Exception {
 		SSLContext sslContext = new SSLContextBuilder()
 				.loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray())
