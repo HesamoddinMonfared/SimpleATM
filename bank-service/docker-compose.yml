@@ -1,0 +1,8 @@
+version: "3.8"
+services:       
+  bank-service:
+    image: bank-service:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9001:9001"

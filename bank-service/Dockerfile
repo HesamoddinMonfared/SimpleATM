@@ -32,6 +32,5 @@ RUN chown root /postgresStartUpScript.sh \
 COPY --from=maven_build /home/app/target/bank-service-0.0.1-SNAPSHOT.jar /home/app/target/bank-service-0.0.1-SNAPSHOT.jar
 
 
-EXPOSE 5432
 EXPOSE 9001
 CMD ["bash", "dockerStartUpScript.sh"]
