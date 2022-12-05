@@ -1,0 +1,27 @@
+version: "3.8"
+services:        
+  bank-service:
+    image: bank-service:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9001:9001"
+        
+        
+        
+  atm-service:
+    image: atm-service:latest
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+        - "9002:9002"
+    environment: 
+        - bankService.serviceUrl=https://bank-service:9001/api/V1/banks/cards/
+    depends_on:
+        - bank-service
+    links:
+        - bank-service
+
+
+        
+    

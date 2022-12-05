@@ -54,20 +54,21 @@ services:
         - service-registry
         
         
-        
   atm-service:
     image: atm-service:latest
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     ports:
-        - "9002:9002/tcp"
+        - "9002:9002"
     environment: 
         - eureka.client.serviceUrl.defaultZone=http://service-registry:8761/eureka/ 
+        - bankService.serviceUrl=https://bank-service:9001/api/V1/banks/cards/
     depends_on:
         - service-registry
+        - bank-service
     links:
         - service-registry
-
+        - bank-service
 
         
     

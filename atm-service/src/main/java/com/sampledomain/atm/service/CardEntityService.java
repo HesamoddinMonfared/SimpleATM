@@ -2,6 +2,7 @@ package com.sampledomain.atm.service;
 
 import com.sampledomain.atm.utility.PrintOutput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,7 +17,9 @@ public class CardEntityService {
     //private final String apiPath = "https://BANK-SERVICE/api/V1/banks/cards/";
 
     //In order to access bank-service directly.
-    private final String apiPath = "https://localhost:9001/api/V1/banks/cards/";
+    //private final String apiPath = "https://localhost:9001/api/V1/banks/cards/";
+    @Value("${bankService.serviceUrl}")
+    private String apiPath;
 
     public String enterCard(String cardEntityNumber) {
         try {
