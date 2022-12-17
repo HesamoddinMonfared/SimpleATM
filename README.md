@@ -1,10 +1,10 @@
 # Simple ATM Emulator
 
 ## List of services
-- bank-service : Access right to database
-- atm-service: Access forbidden to database and make request through bank-service
-- service-registry: register all services via eureka 
-- cloud-gateway: an interface between all services and user request
+- bank-service : Access right to database.
+- atm-service: Access forbidden to database and make request through bank-service.
+- service-registry: register all services via eureka. 
+- cloud-gateway: an interface between all services and user request.
 - config-server: save all common settings in this service in order to change settings in only one place.
 
 ## Port numbers for services
